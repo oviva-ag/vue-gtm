@@ -1,4 +1,4 @@
-import { loadScript } from './utils'
+import {loadScript} from './utils'
 import pluginConfig from './config'
 import GtmPlugin from './GtmPlugin'
 
@@ -10,11 +10,11 @@ import GtmPlugin from './GtmPlugin'
  */
 const install = function (Vue, initConf = {}) {
   // Apply default configuration
-  initConf = { ...pluginConfig, ...initConf }
+  initConf = {...pluginConfig, ...initConf};
 
-  pluginConfig.id = initConf.id
-  pluginConfig.debug = initConf.debug
-  pluginConfig.enabled = initConf.enabled
+  pluginConfig.id = initConf.id;
+  pluginConfig.debug = initConf.debug;
+  pluginConfig.enabled = initConf.enabled;
 
   // Handle vue-router if defined
   if (initConf.vueRouter) {
@@ -22,8 +22,9 @@ const install = function (Vue, initConf = {}) {
   }
 
   // Add to vue prototype and also from globals
-  Vue.prototype.$gtm = Vue.gtm = new GtmPlugin()
+  Vue.prototype.$gtm = Vue.gtm = new GtmPlugin();
 
+  console.log(`installing ${initConf.id} with ${JSON.stringify(initConf.queryParams)}`);
   // Load GTM script when enabled
   if (pluginConfig.enabled) {
     if (Array.isArray(initConf.id)) {
@@ -34,7 +35,7 @@ const install = function (Vue, initConf = {}) {
       loadScript(initConf.id, initConf.queryParams);
     }
   }
-}
+};
 
 /**
  * Init the router guard.
@@ -59,7 +60,7 @@ const initVueRouterGuard = function (Vue, { vueRouter, ignoredViews, trackOnNext
     }
 
     // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
-    const name = to.meta.gtm || to.name
+    const name = to.meta.gtm || to.name;
     const baseUrl = vueRouter.options.base || '';
     if (trackOnNextTick) {
       Vue.nextTick(() => {
@@ -68,10 +69,10 @@ const initVueRouterGuard = function (Vue, { vueRouter, ignoredViews, trackOnNext
     } else {
       Vue.gtm.trackView(name, `${baseUrl}${to.fullPath}`)
     }
-  })
+  });
 
   return ignoredViews
-}
+};
 
 // Export module
 export default { install }

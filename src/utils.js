@@ -8,7 +8,7 @@ export const logDebug = function (message) {
   if (pluginConfig.debug) {
     console.log('VueGtm :', ...arguments)
   }
-}
+};
 
 /**
  * Load GTM script tag
@@ -19,14 +19,16 @@ export const loadScript = function (id, params) {
   const win    = window,
         doc    = document,
         script = doc.createElement('script'),
-        dl     = 'dataLayer'
+        dl     = 'dataLayer';
 
-  win[dl] = win[dl] || []
+  console.log(`loading script ${id} with ${JSON.stringify(params)}`)
+
+  win[dl] = win[dl] || [];
 
   win[dl].push({
-    event      :'gtm.js',
+    event: 'gtm.js',
     'gtm.start': new Date().getTime(),
-  })
+  });
 
   if (!id) {
     return
@@ -35,11 +37,11 @@ export const loadScript = function (id, params) {
   script.async = true;
   const queryString = new URLSearchParams({
     id,
-    ...(params || {})
-  })
-  script.src   = `https://www.googletagmanager.com/gtm.js?${queryString}`
+    ...(params || {}),
+  });
+  script.src = `https://www.googletagmanager.com/gtm.js?${queryString}`
   doc.body.appendChild(script)
-}
+};
 
 /**
  * Check if GTM script is in the document
@@ -47,6 +49,6 @@ export const loadScript = function (id, params) {
  */
 export const hasScript = function () {
   return Array
-    .from(document.getElementsByTagName('script'))
-    .some(script => script.src.includes('googletagmanager'))
-}
+      .from(document.getElementsByTagName('script'))
+      .some(script => script.src.includes('googletagmanager'))
+};

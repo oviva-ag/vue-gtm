@@ -1,19 +1,20 @@
-var path = require('path');
-var webpack = require('webpack');
+const webpack = require('webpack');
 
 module.exports = {
+  devtool: 'source-map',
   entry: [
-    './src/index.js'
+    './src/index.js',
   ],
   output: {
     filename: 'dist/vue-gtm.min.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
       compress: {
-        warnings: false
-      }
+        warnings: false,
+      },
     }),
   ],
   resolve: {
